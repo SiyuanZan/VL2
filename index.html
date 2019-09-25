@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>canvas rain_drop</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+body{
+margin:0;
+}
+
+#rain{
+ display:block;
+  background:#956d32;
+  width:100%;
+  height:100%;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+<script>
+var can=document.getElementById("rain");//获取canvas元素
+
+var w=window.innerWidth; 
+var h=window.innerHeight; //获取浏览器宽高
+//给canvas元素设置宽高
+can.width=w;
+can.height=h;
+//但窗口元素发生变化时候再调整canvas宽和高；
+window.onresize=function(){
+w=window.innerWidth; 
+h=window.innerHeight;
+can.width=w;
+can.height=h;
+}
+var canContent=can.getContext("2d");//拿到画画的纸
+//canContent.fillStyle="red"; //拿一只红色的笔, 实心
+//canContent.fillRect(150,150, 100, 100);// rect drawing
+//canContent.strokeStyle="red";
+//canContent.strokeRect(150, 150, 100, 100);//拿一只红色的笔, 空心
+//canContent.arc(400,400,50,0,Math.PI*2);//x坐标，y坐标，绘制的起始点，绘制的终点）
+//canContent.fill();
+/* var y=0;
+setInterval(function() {
+//canContent.clearRect(0, 0, w, h);//清理屏幕
+canContent.fillStyle="rgba(0,0,0,0.01)";
+canContent.fillRect(0,0,w,h);
+canContent.fillStyle="#fff"; //拿一只红色的笔, 实心
+canContent.fillRect(150, y++, 10, 10);// rect drawing
+console.log();
+}, 1000/60) */
+
+function Rain(){
+};
+
+function random(min,max){
+return Math.random()*(max-min)+min; //返回一个min和max之间的一个随机数
+}
+//var colors=["blue","pink"];
+//function colorRandum(min,max){
+//}
+Rain.prototype={
+   init:function(){//雨滴最基础的配置,参数
+    this.x=random(0,w); 
+   this.y=0;
+   this.v=random(4,5); //move randomly
+   this.h=random(0.8*h,0.9*h);
+   this.r=1;
+   this.vr=random(1,2);
+   this.a=1;
+   this.va=0.96;
+   },
+   draw:function(){
+   if(this.y<this.h){
+   canContent.fillStyle="#211e6b";
+   canContent.fillRect(this.x, this.y, 2, 10);}
+   else{
+   canContent.strokeStyle="rgba(58,82,120,"+this.a+")";
+   canContent.beginPath();//
+   canContent.arc(this.x,this.y,this.r,0,Math.PI*2);//x坐标，y坐标，绘制的起始点，绘制的终点）
+   canContent.stroke();
+   
+}
+   },
+   move: function(){
+
+   if(this.y<this.h){
+      this.y+=this.v;
+     }
+     else{
+     
+     if(this.a>0.02){
+     this.r+=this.vr;
+     this.a*=this.va;
+     }
+     else{
+     this.init();
+     }
+     
+     
+     }
+    this.draw();
+
+   }
+}
+//复用性
+var rainArry=[];
+//create rain 
+function createRain(){
+var rain=new Rain();
+rain.init();//基本配置
+rain.draw();
+rainArry.push(rain);//雨滴产生之前加个标记
+}
+for(var i=0;i<30;i++){
+setTimeout(createRain,2000*i);
+}
+//move rain
+function moveRain(){
+canContent.fillStyle="rgba(0,0,0,0.01)";
+canContent.fillRect(0,0,w,h);
+for(var k=0;k<rainArry.length;k++){
+rainArry[k].move();
+}
+}
+setInterval(moveRain,1000/60)
+
+
+function Rain1(){
+};
+
+function random1(min,max){
+return Math.random()*(max-min)+min; //返回一个min和max之间的一个随机数
+}
+//var colors=["blue","pink"];
+//function colorRandum(min,max){
+//}
+Rain1.prototype={
+   init1:function(){//雨滴最基础的配置,参数
+    this.x1=random1(0,w); 
+   this.y1=0;
+   this.v1=random1(4,5); //move randomly
+   this.h1=random1(0.8*h,0.9*h);
+   this.r1=1;
+   this.vr1=random1(1,2);
+   this.a1=1;
+   this.va1=0.96;
+   },
+   draw1:function(){
+   if(this.y1<this.h1){
+   canContent.fillStyle="#ac3d29";
+   canContent.fillRect(this.x1, this.y1, 2, 10);}
+   else{
+   canContent.strokeStyle="rgba(203,97,55,"+this.a1+")";
+   canContent.beginPath();//
+   canContent.arc(this.x1,this.y1,this.r1,0,Math.PI*2);//x坐标，y坐标，绘制的起始点，绘制的终点）
+   canContent.stroke();
+   
+}
+   },
+   move1: function(){
+
+   if(this.y1<this.h1){
+      this.y1+=this.v1;
+     }
+     else{
+     
+     if(this.a1>0.02){
+     this.r1+=this.vr1;
+     this.a1*=this.va1;
+     }
+     else{
+     this.init1();
+     }
+     
+     
+     }
+    this.draw1();
+
+   }
+}
+//复用性
+var rainArry1=[];
+//create rain 
+function createRain1(){
+var rain1=new Rain1();
+rain1.init1();//基本配置
+rain1.draw1();
+rainArry1.push(rain1);//雨滴产生之前加个标记
+}
+for(var i=0;i<30;i++){
+setTimeout(createRain1,2000*i);
+}
+//move rain
+function moveRain1(){
+canContent.fillStyle="rgba(0,0,0,0.01)";
+canContent.fillRect(0,0,w,h);
+for(var k=0;k<rainArry1.length;k++){
+rainArry1[k].move1();
+}
+}
+setInterval(moveRain1,1000/60)
+
+
+
+</script>
+</body>
+</html>
